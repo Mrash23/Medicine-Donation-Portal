@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>userdata</title>
+  <script src="js/jquery-1.8.2.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
+    <script src="js/angular.min.js">   </script>
+    <script>
+    
+    var moduleKuch=angular.module("myModule",[]);
+    moduleKuch.controller("myController",function($scope,$http){
+
+        $scope.fetchusers=function()
+        {
+            $http.get("/fetchallrecord").then(fxSuccess,function(response){
+                        alert(JSON.stringify(response.data));
+                   });
+                   function fxSuccess(response)
+                   {
+                    //alert(JSON.stringify(response.data));
+                    $scope.jsonAry=response.data;
+                   }
+        }
+        $scope.doblock=function(email)
+        {
+            var url="/blockuser?email="+email;
+            $http.get(url).then(fxSuccess,function(response){});
+                function fxSuccess(response)
+                   {
+                    alert("User Blocked!!");
+                    $scope.fetchusers();
+                   
+                   }
+         }
+
+         $scope.dounblock=function(email)
+        {
+            var url="/unblockuser?email="+email;
+            $http.get(url).then(fxSuccess,function(response){});
+                function fxSuccess(response)
+                   {
+                    alert("User UnBlocked!!");
+                    
+                   
+                   }
+                   $scope.fetchusers();
+         }
+
+    });
+
+    </script>
+    <style>
+        body{
+          background-color: antiquewhite;
+        }
+    
+        h1{
+          width:100%;
+             background-color: cadetblue;
+             font-family: Arial, Helvetica, sans-serif;
+             margin-top: 0px;
+             text-align: center;
+        }
+
+        th {
+        
+      font-size: 15px;
+      color: darkcyan;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      text-align: center;
+        }
+
+        td{
+            text-align: center;
+        }
+       
+        </style>
+    </head>
+    <body ng-controller="myController" ng-app="myModule">
+    
+
+        <h1>USERS DATA</h1>
+  
+        <div class="container">
+            <center>
+                <input type="button" class="btn btn-primary"value="Fetch All Records" ng-click=fetchusers();>
+            </center>
+            <br>
+            <table class="table table-striped"  align="center" bgcolor="#fff" >
+                <tr >
+                    <th>Sr no</th>
+                    <th>Email</th>
+                    <th>Usertype</th>
+                    <th>Status</th>
+                    <th>Block User</th>
+                    <th>Unblock User</th>
+                    </tr>
+                    <tr ng-repeat="obj in jsonAry">
+                        <td>{{$index}}</td>
+                        <td>{{obj.email}}</td>
+                        <td>{{obj.usertype}}</td>
+                        <td>{{obj.status}}</td>
+                        <td>
+                            <input type="button" class="btn btn-outline-danger" value="Block" ng-click=doblock(obj.email);>
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-outline-success" value="Unblock" ng-click=dounblock(obj.email);>
+                        </td>
+
+
+                    </tr>
+
+
+            </table>
+         </div>
+
+    </body>
+    </html>
