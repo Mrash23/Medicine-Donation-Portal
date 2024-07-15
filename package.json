@@ -1,0 +1,21 @@
+{
+  "name": "meddonserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.7.7",
+    "nodemon": "^3.0.1",
+    "path": "^0.12.7",
+    "yarn": "^1.22.19"
+  }
+}
